@@ -32,20 +32,15 @@ const colors = [
       shininess: 0
     },
     {
-      texture: 'models/nike/tag_b_BC.png',
-      size: [5, 5, 5],
-      shininess: 0
+      color: '0fe4dc'
     },
     {
-      texture: 'models/nike/tag_c_BC.png',
-      size: [6, 6, 6],
-      shininess: 0
+      color: 'f11a5c'
     },
     {
-      texture: 'models/nike/tag_a_BC.png',
-      size: [7, 7, 7],
-      shininess: 0
+      color: 'ffcc00'
     },
+
     {
         color: '438AAC'
     }  
