@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { SpriteMaterial } from 'three';
+import * as Stats from 'stats-js'
 
 
 let container;
@@ -13,6 +14,12 @@ let controls;
 let theModel;
 const Model_Path = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/1376484/chair.glb";
 let activeOption = 'nike_ar';
+
+
+let stats = new Stats();
+stats.showPanel( 0 );
+document.body.appendChild( stats.dom );
+
 
 
 const colors = [
@@ -65,9 +72,10 @@ function init(){
     createRenderer();
 
     renderer.setAnimationLoop( () => {
-
+        stats.begin();
         update();
         render();
+        stats.end();
     
       } );
 
