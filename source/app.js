@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { SpriteMaterial } from 'three';
 import * as Stats from 'stats-js'
 
@@ -111,6 +112,10 @@ function glbLoad(){
       ];
 
     let loader = new GLTFLoader();
+    let dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath( '/examples/js/libs/draco/' );
+    loader.setDRACOLoader( dracoLoader );
+    
     loader.load("models/nike/nikeTest.glb", function(gltf){
         theModel = gltf.scene;
         theModel.traverse((o) => {
