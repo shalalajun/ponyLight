@@ -248,7 +248,7 @@ function createCamera(){
     const far = 100;    
     
     camera = new THREE.PerspectiveCamera(fov,aspect,near,far);
-    camera.position.set(0,0,2);
+    camera.position.set(0,0,1);
 
 
 }
