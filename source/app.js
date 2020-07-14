@@ -116,11 +116,12 @@ function glbLoad(){
     dracoLoader.setDecoderPath( '/examples/js/libs/draco/' );
     loader.setDRACOLoader( dracoLoader );
     
-    loader.load("models/nike/nikeTest.glb", function(gltf){
+    loader.load("models/model.glb", function(gltf){
         theModel = gltf.scene;
         theModel.traverse((o) => {
             if (o.isMesh) { 
-              o.position.y = -0.8;
+              o.position.y = -0.16;
+              o.scale.set = 300;
               o.castShadow = true;
               o.receiveShadow = true;
             }
@@ -247,7 +248,7 @@ function createCamera(){
     const far = 100;    
     
     camera = new THREE.PerspectiveCamera(fov,aspect,near,far);
-    camera.position.set(0,0,10);
+    camera.position.set(0,0,2);
 
 
 }
