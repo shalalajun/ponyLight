@@ -61,8 +61,8 @@ function init(){
 
     container = document.querySelector('#scene');
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xf1f1f1);
-    scene.fog = new THREE.Fog(0xf1f1f1, 20, 100);
+    scene.background = new THREE.Color(0x000000);
+    //scene.fog = new THREE.Fog(0xf1f1f1, 20, 100);
     
     
     createCamera();
@@ -85,29 +85,27 @@ function init(){
 
 function glbLoad(){
     const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load( 'models/nike/nike_AR_WH_BC.png' );
-    const texture2 = textureLoader.load( 'models/nike/tag_a_BC.png' );
+    const texture = textureLoader.load( 'models/ponytexture.png' );
+    
     texture.encoding = THREE.sRGBEncoding;
     texture.flipY = false;
-    texture2.encoding = THREE.sRGBEncoding;
-    texture2.flipY = false;
+   
 
-
-    const INITIAL_MTL = new THREE.MeshPhongMaterial({
-      map:texture2
-    });
-    const INITIAL_MTL2 = new THREE.MeshPhongMaterial({
-      map:texture
-    });
+    // const INITIAL_MTL = new THREE.MeshPhongMaterial({
+    //   map:texture2
+    // });
+    // const INITIAL_MTL2 = new THREE.MeshPhongMaterial({
+    //   map:texture
+    // });
 
     const INITIAL_MAP = [
         // {childID: "nike_logo", mtl: INITIAL_MTL},
         // {childID: "nike_button", mtl: INITIAL_MTL},
         // {childID: "nike_button2", mtl: INITIAL_MTL},
         // {childID: "shoelace_up", mtl: INITIAL_MTL},
-        {childID: "nike_ar", mtl: INITIAL_MTL2},
+        //{childID: "nike_ar", mtl: INITIAL_MTL2},
         // {childID: "nike_tag_1", mtl: INITIAL_MTL},
-        {childID: "nike_tag_2", mtl: INITIAL_MTL},
+        //{childID: "nike_tag_2", mtl: INITIAL_MTL},
         // {childID: "nike_tag_3", mtl: INITIAL_MTL},
       ];
 
@@ -118,12 +116,14 @@ function glbLoad(){
     
     loader.load("models/model.glb", function(gltf){
         theModel = gltf.scene;
+        var newMaterial = new THREE.MeshStandardMaterial({map:texture});
         theModel.traverse((o) => {
             if (o.isMesh) { 
+              o.material = newMaterial,
               o.position.y = -0.16;
               o.scale.set = 300;
-              o.castShadow = true;
-              o.receiveShadow = true;
+              // o.castShadow = true;
+              // o.receiveShadow = true;
             }
           });
       
@@ -196,16 +196,16 @@ function glbLoad(){
          txt.wrapS = THREE.RepeatWrapping;
          txt.wrapT = THREE.RepeatWrapping;
          
-         new_mtl = new THREE.MeshPhongMaterial( {
+         new_mtl = new THREE.MeshBasicMaterial( {
            map: txt,
-           shininess: color.shininess ? color.shininess : 10
+           shininess: color.shininess ? color.shininess : 0
          });    
        } 
        else
        {
-         new_mtl = new THREE.MeshPhongMaterial({
+         new_mtl = new THREE.MeshBasicMaterial({
              color: parseInt('0x' + color.color),
-             shininess: color.shininess ? color.shininess : 10
+             shininess: color.shininess ? color.shininess : 0
              
            });
        }
@@ -260,15 +260,15 @@ function createLight(){
     // scene.add( light );
 
     const ambientLight = new THREE.HemisphereLight(
-        0xffffff, 0xffffff, 0.61
+        0xffffff, 0xffffff, 1
       );
     
       scene.add( ambientLight );
 
-      var dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
+      var dirLight = new THREE.DirectionalLight( 0xffffff, 0 );
       dirLight.position.set( -8, 12, 8 );
-      dirLight.castShadow = true;
-      dirLight.shadow.mapSize = new THREE.Vector2(1024, 1024);
+      //dirLight.castShadow = false;
+      //dirLight.shadow.mapSize = new THREE.Vector2(1024, 1024);
   // Add directional Light to scene    
       scene.add( dirLight );
     
@@ -283,9 +283,9 @@ function createMesh(){
     let textureLoader = new THREE.TextureLoader();
     let texture = textureLoader.load('textures/dami.png');
     texture.encoding = THREE.sRGBEncoding;
-    texture.anisotropy = 16;
+    //texture.anisotropy = 16;
 
-    let material = new THREE.MeshBasicMaterial({ map: texture });
+    let material = new THREE.MeshBasicMaterial({ lightMap: texture });
    
     mesh = new THREE.Mesh(geometry,material);
 
@@ -303,7 +303,7 @@ function createRenderer(){
 
     renderer.gammaFactor = 2.2;
     renderer.gammaOutput = true;
-    renderer.physicallyCorrectLights = true;
+    // renderer.physicallyCorrectLights = true;
     
     container.appendChild(renderer.domElement);
 
