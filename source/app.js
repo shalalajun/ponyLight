@@ -23,36 +23,6 @@ document.body.appendChild( stats.dom );
 
 
 
-const colors = [
-    {
-        texture: 'models/nike/nike_AR_BK1_BC.png',
-        size: [2,2,2],
-        shininess: 60
-    },
-    {
-        texture: 'models/nike/nike_AR_BK2_BC.png',
-        size: [3, 3, 3],
-        shininess: 0
-    },
-    {
-      texture: 'models/nike/nike_AR_WH_BC.png',
-      size: [4, 4, 4],
-      shininess: 0
-    },
-    {
-      color: '0fe4dc'
-    },
-    {
-      color: 'f11a5c'
-    },
-    {
-      color: 'ffcc00'
-    },
-
-    {
-        color: '438AAC'
-    }  
-    ]
 
 
 
@@ -69,7 +39,6 @@ function init(){
     createControls();
     glbLoad();
     createLight();
-    createMesh();
     createRenderer();
 
     renderer.setAnimationLoop( () => {
@@ -91,29 +60,10 @@ function glbLoad(){
     texture.flipY = false;
    
 
-    // const INITIAL_MTL = new THREE.MeshPhongMaterial({
-    //   map:texture2
-    // });
-    // const INITIAL_MTL2 = new THREE.MeshPhongMaterial({
-    //   map:texture
-    // });
-
-    const INITIAL_MAP = [
-        // {childID: "nike_logo", mtl: INITIAL_MTL},
-        // {childID: "nike_button", mtl: INITIAL_MTL},
-        // {childID: "nike_button2", mtl: INITIAL_MTL},
-        // {childID: "shoelace_up", mtl: INITIAL_MTL},
-        //{childID: "nike_ar", mtl: INITIAL_MTL2},
-        // {childID: "nike_tag_1", mtl: INITIAL_MTL},
-        //{childID: "nike_tag_2", mtl: INITIAL_MTL},
-        // {childID: "nike_tag_3", mtl: INITIAL_MTL},
-      ];
-
     let loader = new GLTFLoader();
     let dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath( '/examples/js/libs/draco/' );
     loader.setDRACOLoader( dracoLoader );
-    
     loader.load("models/model.glb", function(gltf){
         theModel = gltf.scene;
         var newMaterial = new THREE.MeshStandardMaterial({map:texture});
@@ -126,115 +76,15 @@ function glbLoad(){
               // o.receiveShadow = true;
             }
           });
-      
-        for (let object of INITIAL_MAP) {
-            initColor(theModel, object.childID, object.mtl);
-        }
         scene.add( theModel );
     
     }, undefined, function ( error ) {
         console.error( error );
-    
     });
-
-    const TRAY = document.getElementById('js-tray-slide');
-
-
-    function buildColors(colors) {
-  for (let [i, color] of colors.entries()) {
-    let swatch = document.createElement('div');
-    swatch.classList.add('tray__swatch');
-    
-    if (color.texture)
-    {
-      swatch.style.backgroundImage = "url(" + color.texture + ")";   
-    } else
-    {
-      swatch.style.background = "#" + color.color;
-    }
-
-    swatch.setAttribute('data-key', i);
-    TRAY.append(swatch);
   }
-}
-      
-      buildColors(colors);
-      
-      // Swatches
-      const swatches = document.querySelectorAll(".tray__swatch");
-      
-      for (const swatch of swatches) {
-        swatch.addEventListener('click', selectSwatch);
-      }
-      
 
-      const options = document.querySelectorAll(".option");
-
-      for (const option of options) {
-        option.addEventListener('click',selectOption);
-      }
       
-      function selectOption(e) {
-        let option = e.target;
-        activeOption = e.target.dataset.option;
-        for (const otherOption of options) {
-          otherOption.classList.remove('--is-active');
-        }
-        option.classList.add('--is-active');
-      }
-
-      function selectSwatch(e) {
-        let color = colors[parseInt(e.target.dataset.key)];
-        let new_mtl;
-   
-       if (color.texture) {
-         
-         let txt = new THREE.TextureLoader().load(color.texture);
-         txt.flipY = false;
-         txt.encoding = THREE.sRGBEncoding;
-         //txt.repeat.set( color.size[0], color.size[1], color.size[2]);
-         txt.wrapS = THREE.RepeatWrapping;
-         txt.wrapT = THREE.RepeatWrapping;
-         
-         new_mtl = new THREE.MeshBasicMaterial( {
-           map: txt,
-           shininess: color.shininess ? color.shininess : 0
-         });    
-       } 
-       else
-       {
-         new_mtl = new THREE.MeshBasicMaterial({
-             color: parseInt('0x' + color.color),
-             shininess: color.shininess ? color.shininess : 0
-             
-           });
-       }
-       
-       setMaterial(theModel, activeOption, new_mtl);
-   }
-      
-      function setMaterial(parent, type, mtl) {
-        parent.traverse((o) => {
-         if (o.isMesh && o.nameID != null) {
-           if (o.nameID == type) {
-                o.material = mtl;
-             }
-         }
-       });
-      }
-
-}
-
-function initColor(parent, type, mtl) {
-  parent.traverse((o) => {
-   if (o.isMesh) {
-     if (o.name.includes(type)) {
-          o.material = mtl;
-          o.nameID = type; // Set a new property to identify this object
-       }
-   }
- });
-}
+     
 
 function createControls(){
     controls = new OrbitControls( camera, container); 
@@ -256,9 +106,6 @@ function createCamera(){
 
 function createLight(){
 
-    // var light = new THREE.AmbientLight( 0xffffff ); // soft white light
-    // scene.add( light );
-
     const ambientLight = new THREE.HemisphereLight(
         0xffffff, 0xffffff, 1
       );
@@ -267,31 +114,12 @@ function createLight(){
 
       var dirLight = new THREE.DirectionalLight( 0xffffff, 0 );
       dirLight.position.set( -8, 12, 8 );
-      //dirLight.castShadow = false;
-      //dirLight.shadow.mapSize = new THREE.Vector2(1024, 1024);
-  // Add directional Light to scene    
-      scene.add( dirLight );
     
-    // let light2 = new THREE.DirectionalLight(0xffffff, 1);
-    // light2.position.set( -10, -10, 10 );
-    // scene.add(light2);   
+      scene.add( dirLight );
+  
 }
 
 
-function createMesh(){
-    let geometry = new THREE.BoxBufferGeometry(2,2,2);
-    let textureLoader = new THREE.TextureLoader();
-    let texture = textureLoader.load('textures/dami.png');
-    texture.encoding = THREE.sRGBEncoding;
-    //texture.anisotropy = 16;
-
-    let material = new THREE.MeshBasicMaterial({ lightMap: texture });
-   
-    mesh = new THREE.Mesh(geometry,material);
-
-
-    //scene.add(mesh);
-}
 
 
 function createRenderer(){
@@ -311,9 +139,7 @@ function createRenderer(){
 }
 
 function update(){
-    mesh.rotation.z += 0.01;
-    mesh.rotation.x += 0.01;
-    mesh.rotation.y += 0.01;
+  
 }
 
 function render(){
