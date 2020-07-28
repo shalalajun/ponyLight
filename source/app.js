@@ -9,7 +9,6 @@ let container;
 let camera;
 let renderer;
 let scene;
-
 let controls;
 let theModel;
 
