@@ -18,7 +18,8 @@ html {
   box-sizing: border-box;
 }
 body {
-  display: flex;
+  display: block;
+  margin: 0;
   justify-content: center;
   align-items: center;
   width: 100%;
