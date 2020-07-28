@@ -50,16 +50,12 @@ function glbLoad(){
     dracoLoader.setDecoderPath( '/examples/js/libs/draco/' );
     dracoLoader.setDecoderConfig({type: 'js'});
     loader.setDRACOLoader( dracoLoader );
-   // dracoLoader.preload();
     loader.load("models/model.glb", function(gltf){
         theModel = gltf.scene;
-      //  var newMaterial = new THREE.MeshStandardMaterial({map:texture});
         theModel.traverse((o) => {
             if (o.isMesh) { 
-            //  o.material = newMaterial,
               o.position.y = -0.16;
               o.scale.set = 300;
-             
             }
           });
         scene.add( theModel );
@@ -71,8 +67,6 @@ function glbLoad(){
   }
 
       
-     
-
 function createControls(){
     controls = new OrbitControls( camera, container); 
 }
@@ -101,9 +95,6 @@ function createLight(){
   
 }
 
-
-
-
 function createRenderer(){
 
     renderer = new THREE.WebGL1Renderer({ antialias: true });
@@ -120,9 +111,6 @@ function createRenderer(){
 
 }
 
-// function update(){
-  
-// }
 
 function render(){
     renderer.render(scene,camera);
@@ -131,13 +119,8 @@ function render(){
 
 function onWindowResize() {
 
-    // set the aspect ratio to match the new browser window aspect ratio
     camera.aspect = container.clientWidth / container.clientHeight;
-  
-    // update the camera's frustum
     camera.updateProjectionMatrix();
-  
-    // update the size of the renderer AND the canvas
     renderer.setSize( container.clientWidth, container.clientHeight );
   
   }
