@@ -53,11 +53,11 @@ function init(){
 
 
 function glbLoad(){
-    const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load( 'models/ponytexture.png' );
+    // const textureLoader = new THREE.TextureLoader();
+    // const texture = textureLoader.load( 'models/ponytexture.png' );
     
-    texture.encoding = THREE.sRGBEncoding;
-    texture.flipY = false;
+    // texture.encoding = THREE.sRGBEncoding;
+    // texture.flipY = false;
    
 
     let loader = new GLTFLoader();
@@ -66,10 +66,10 @@ function glbLoad(){
     loader.setDRACOLoader( dracoLoader );
     loader.load("models/model.glb", function(gltf){
         theModel = gltf.scene;
-        var newMaterial = new THREE.MeshStandardMaterial({map:texture});
+      //  var newMaterial = new THREE.MeshStandardMaterial({map:texture});
         theModel.traverse((o) => {
             if (o.isMesh) { 
-              o.material = newMaterial,
+            //  o.material = newMaterial,
               o.position.y = -0.16;
               o.scale.set = 300;
               // o.castShadow = true;
