@@ -2,7 +2,6 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
-import { SpriteMaterial } from 'three';
 import * as Stats from 'stats-js'
 
 
@@ -13,8 +12,7 @@ let scene;
 let mesh;
 let controls;
 let theModel;
-const Model_Path = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/1376484/chair.glb";
-let activeOption = 'nike_ar';
+
 
 
 let stats = new Stats();
@@ -53,12 +51,7 @@ function init(){
 
 
 function glbLoad(){
-    // const textureLoader = new THREE.TextureLoader();
-    // const texture = textureLoader.load( 'models/ponytexture.png' );
     
-    // texture.encoding = THREE.sRGBEncoding;
-    // texture.flipY = false;
-   
 
     let loader = new GLTFLoader();
     let dracoLoader = new DRACOLoader();
@@ -81,11 +74,6 @@ function glbLoad(){
         scene.add( theModel );
     
     },
-    function ( xhr ) {
-
-      console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-  
-    }, 
         undefined, function ( error ) {
         console.error( error );
     });
@@ -120,10 +108,7 @@ function createLight(){
     
       scene.add( ambientLight );
 
-      var dirLight = new THREE.DirectionalLight( 0xffffff, 0 );
-      dirLight.position.set( -8, 12, 8 );
-    
-      scene.add( dirLight );
+  
   
 }
 
@@ -139,7 +124,7 @@ function createRenderer(){
 
     renderer.gammaFactor = 2.2;
     renderer.gammaOutput = true;
-    // renderer.physicallyCorrectLights = true;
+  
     
     container.appendChild(renderer.domElement);
 
