@@ -26,8 +26,6 @@ function init(){
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x000000);
    
-    
-    
     createCamera();
     createControls();
     glbLoad();
