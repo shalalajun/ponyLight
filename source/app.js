@@ -63,7 +63,9 @@ function glbLoad(){
     let loader = new GLTFLoader();
     let dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath( '/examples/js/libs/draco/' );
+    dracoLoader.setDecoderConfig({type: 'js'});
     loader.setDRACOLoader( dracoLoader );
+   // dracoLoader.preload();
     loader.load("models/model.glb", function(gltf){
         theModel = gltf.scene;
       //  var newMaterial = new THREE.MeshStandardMaterial({map:texture});
@@ -78,7 +80,13 @@ function glbLoad(){
           });
         scene.add( theModel );
     
-    }, undefined, function ( error ) {
+    },
+    function ( xhr ) {
+
+      console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+  
+    }, 
+        undefined, function ( error ) {
         console.error( error );
     });
   }
