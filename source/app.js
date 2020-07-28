@@ -9,7 +9,7 @@ let container;
 let camera;
 let renderer;
 let scene;
-let mesh;
+
 let controls;
 let theModel;
 
@@ -20,17 +20,12 @@ stats.showPanel( 0 );
 document.body.appendChild( stats.dom );
 
 
-
-
-
-
-
 function init(){
 
     container = document.querySelector('#scene');
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x000000);
-    //scene.fog = new THREE.Fog(0xf1f1f1, 20, 100);
+   
     
     
     createCamera();
@@ -41,10 +36,9 @@ function init(){
 
     renderer.setAnimationLoop( () => {
         stats.begin();
-        update();
+        //update();
         render();
         stats.end();
-    
       } );
 
 }
@@ -67,8 +61,7 @@ function glbLoad(){
             //  o.material = newMaterial,
               o.position.y = -0.16;
               o.scale.set = 300;
-              // o.castShadow = true;
-              // o.receiveShadow = true;
+             
             }
           });
         scene.add( theModel );
@@ -107,8 +100,6 @@ function createLight(){
       );
     
       scene.add( ambientLight );
-
-  
   
 }
 
@@ -131,9 +122,9 @@ function createRenderer(){
 
 }
 
-function update(){
+// function update(){
   
-}
+// }
 
 function render(){
     renderer.render(scene,camera);
